@@ -92,3 +92,23 @@ browserObject.runtime.onMessage.addListener(function(request, sender, sendRespon
             };
             
 });
+
+
+// Content Dom page ---- origal Page  use window.PostMessage and 
+//Content script
+window.postMessage(response, '*');
+//original main page
+window.addEventListener('message', (event) => {
+     if (event.source != window || !event.data || !event.data.action) {
+          return;
+     }
+     switch(event.data.action) {
+     case 'Actived':
+         //....
+         break;
+     case 'Auth':
+        //...
+        break;
+     }
+}
+
