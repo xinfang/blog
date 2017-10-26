@@ -1,17 +1,17 @@
-Chrome extension
+Chrome extension (chrome, firfox, IE Edge)
 
 //popup.js— > background
 ///////////browser-action-popup/////////////
 //Send message from browser-action-popup to background-script
-chrome.runtime.sendMessage({
-        msg: "This is a message sent from the browser-action-popup to the background-script"
-    })
-    .then(response => { //Receive response from the background-script
-        console.log(response.msg)
-    })
+browserObject.runtime.sendMessage({
+    msg: "This is a message sent from the browser-action-popup to the background-script"
+})
+.then(response => { //Receive response from the background-script
+    console.log(response.msg)
+})
 
 //Receive message from background-script
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+browserObject.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     sendResponse({
         msg: "This is a response message sent from the browser-action-popup"
     })
@@ -21,15 +21,15 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 //background— > popup
 ////////////background-script//////////////
 //Send message from background-script to browser-action-popup
-chrome.runtime.sendMessage({
-        msg: "This is a message sent from the background-script to the browser-action-popup"
-    })
-    .then(response => { //Receive response from the browser-action-popup
-        console.log(response.msg)
-    })
+browserObject.runtime.sendMessage({
+    msg: "This is a message sent from the background-script to the browser-action-popup"
+})
+.then(response => { //Receive response from the browser-action-popup
+    console.log(response.msg)
+})
 
 //Receive messages from browser-action-popup
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+browserObject.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     sendResponse({
         msg: "This is a response message sent from the background-script"
     })
@@ -38,7 +38,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
 //popup.js— > content script
 ////////////Popup//////////////
-chrome.tabs.query({
+browserObject.tabs.query({
     active: true,
     currentWindow: true
 }, function(tabs) {
