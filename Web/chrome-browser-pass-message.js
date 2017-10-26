@@ -70,7 +70,16 @@ browserObject.tabs.query({ active: true, currentWindow: true }, function (tabs) 
     });
 });
 
-
+//popup to contentscript & popup to background
+browserObject.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    browserObject.tabs.sendMessage(tabs[0].id, { action: 'CheckAccount' }, function (response) {
+        browserObject.runtime.sendMessage({ action: 'CheckAccount' })
+        .then(response => { //Receive response from the background-script
+            self.isValid = response.isValid;
+            self.isChecked = response.isChecked;
+        });
+    });
+});
 
 //background—— content script
 ////////////Content Listeren//////////////
@@ -99,9 +108,9 @@ browserObject.runtime.sendMessage(data, function(response) {
 
 //background Script
 browserObject.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-            if (request.action === 'Login') {
-                sendResponse(data);
-            };
+    if (request.action === 'Login') {
+        sendResponse(data);
+    };
             
 });
 
