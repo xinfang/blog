@@ -59,6 +59,18 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 });
 
+//popup to contentscript & popup to background
+browserObject.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    browserObject.tabs.sendMessage(tabs[0].id, { action: 'CheckAccount' }, function (response) {
+        browserObject.runtime.sendMessage({ action: 'CheckAccount' })
+        .then(response => { //Receive response from the background-script
+            self.isValid = response.isValid;
+            self.isChecked = response.isChecked;
+        });
+    });
+});
+
+
 
 //background—— content script
 ////////////Content Listeren//////////////
